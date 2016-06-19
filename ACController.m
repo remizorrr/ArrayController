@@ -7,7 +7,7 @@
 //
 
 #import "ACController.h"
-#import "VCRDelegateProxy.h"
+#import "ACDelegateProxy.h"
 #import "UIImage+Icon.h"
 #import "UIColor+Hex.h"
 
@@ -70,10 +70,10 @@
 
 @end
 
-@interface VCRArrayController()
+@interface ACController()
 {
-    VCRDelegateProxy* _delegateProxy;
-    VCRDelegateProxy* _datasourceProxy;
+    ACDelegateProxy* _delegateProxy;
+    ACDelegateProxy* _datasourceProxy;
     NSArray* _sections;
 }
 @end

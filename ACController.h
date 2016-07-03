@@ -41,7 +41,7 @@ typedef float(^VCRHeightBlock)();
 @property (nonatomic, weak) IBOutlet id<UITableViewDelegate> delegate;
 @property (nonatomic, weak) IBOutlet id<UITableViewDataSource> dataSource;
 @property (nonatomic, copy) void(^didScrollBlock)(UIScrollView* scrollView) ;
-
+@property (nonatomic, assign) BOOL staticCellHeight;
 - (void)setViewModel:(NSArray *)viewModel reloadData:(BOOL)reload;
 
 @end

@@ -84,29 +84,29 @@
 {
     self = [super init];
     if (self) {
-//        _delegateProxy = [VCRDelegateProxy new];
-//        _datasourceProxy = [VCRDelegateProxy new];
-//        _delegateProxy->_breakingDelegate = self;
-//        _datasourceProxy->_breakingDelegate = self;
+        _delegateProxy = [ACDelegateProxy new];
+        _datasourceProxy = [ACDelegateProxy new];
+        _delegateProxy->_breakingDelegate = self;
+        _datasourceProxy->_breakingDelegate = self;
     }
     return self;
 }
 
 - (void)setCollection:(UITableView *)collection {
     _collection = collection;
-//    self.collection.delegate = _delegateProxy;
-//    self.collection.dataSource = _datasourceProxy;
+    self.collection.delegate = _delegateProxy;
+    self.collection.dataSource = _datasourceProxy;
     self.collection.delegate = self;
     self.collection.dataSource = self;
 
 }
 
 -(void)setDelegate:(id<UITableViewDelegate>)delegate {
-//    _delegateProxy->_originalDelegate = delegate;
+    _delegateProxy->_originalDelegate = delegate;
 }
 
 -(void)setDataSource:(id<UITableViewDataSource>)dataSource {
-//    _datasourceProxy->_originalDelegate = dataSource;
+    _datasourceProxy->_originalDelegate = dataSource;
 }
 
 - (void)setViewModel:(NSArray *)viewModel {
@@ -204,7 +204,32 @@
 
 }
 
+- (BOOL)respondsToSelector:(SEL)aSelector {
+    BOOL result = [super respondsToSelector:aSelector];
+    if ((aSelector == @selector(tableView:estimatedHeightForRowAtIndexPath:)) && self.staticCellHeight) {
+        return NO;
+    }
+    if ((aSelector == @selector(tableView:heightForRowAtIndexPath:)) && !self.staticCellHeight) {
+        return NO;
+    }
+    return result;
+}
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSArray* children = self.viewModel[indexPath.section][@"children"];
+    NSDictionary* item = children[indexPath.row];
+    NSNumber* height = item[VCRHeightKey];
+    
+    float floatHeight;
+    if (![height isKindOfClass:[NSNumber class]]) {
+        VCRHeightBlock block = (id)height;
+        floatHeight = block();
+    } else {
+        floatHeight = height.floatValue;
+    }
+    return floatHeight;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray* children = self.viewModel[indexPath.section][@"children"];
     NSDictionary* item = children[indexPath.row];
     NSNumber* height = item[VCRHeightKey];

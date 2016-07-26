@@ -23,34 +23,24 @@ static NSMutableDictionary* _VCRArrayViewControllerRegisteredNibs = nil;
 @implementation ACViewController
 
 + (void)initialize {
-    [ACViewController registerNib:[UINib nibWithNibName:@"VCRAddItemCell"
+    [ACViewController registerNib:[UINib nibWithNibName:@"ACCountCell"
                                                  bundle:nil]
-                    forIdentifier:@"VCRAddItemCell"];
-    
-    [ACViewController registerNib:[UINib nibWithNibName:@"CheckinCell"
+                    forIdentifier:@"ACCountCell"];
+    [ACViewController registerNib:[UINib nibWithNibName:@"ACPickerCell"
                                                  bundle:nil]
-                    forIdentifier:@"checkin"];
-    [ACViewController registerNib:[UINib nibWithNibName:@"VCRCountCell"
+                    forIdentifier:@"ACPickerCell"];
+    [ACViewController registerNib:[UINib nibWithNibName:@"ACSwitchCell"
                                                  bundle:nil]
-                    forIdentifier:@"VCRCountCell"];
-    [ACViewController registerNib:[UINib nibWithNibName:@"VCRPickerCell"
+                    forIdentifier:@"ACSwitchCell"];
+    [ACViewController registerNib:[UINib nibWithNibName:@"ACDatePickerCell"
                                                  bundle:nil]
-                    forIdentifier:@"VCRPickerCell"];
-    [ACViewController registerNib:[UINib nibWithNibName:@"VCRSwitchCell"
+                    forIdentifier:@"ACDatePickerCell"];
+    [ACViewController registerNib:[UINib nibWithNibName:@"ACActionCell"
                                                  bundle:nil]
-                    forIdentifier:@"VCRSwitchCell"];
-    [ACViewController registerNib:[UINib nibWithNibName:@"VCRDatePicker"
+                    forIdentifier:@"ACActionCell"];
+    [ACViewController registerNib:[UINib nibWithNibName:@"ACHeaderCell"
                                                  bundle:nil]
-                    forIdentifier:@"VCRDatePicker"];
-    [ACViewController registerNib:[UINib nibWithNibName:@"VCRActionCell"
-                                                 bundle:nil]
-                    forIdentifier:@"VCRActionCell"];
-    [ACViewController registerNib:[UINib nibWithNibName:@"VCRPhotoCell"
-                                                 bundle:nil]
-                    forIdentifier:@"VCRPhotoCell"];
-    [ACViewController registerNib:[UINib nibWithNibName:@"VCRHeaderCell"
-                                                 bundle:nil]
-                    forIdentifier:@"VCRHeaderCell"];
+                    forIdentifier:@"ACHeaderCell"];
 }
 
 - (instancetype)init

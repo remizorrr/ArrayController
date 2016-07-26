@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="ProximaNova-Regular.otf">
+            <string>ProximaNova-Regular</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ACDatePickerCell" rowHeight="256" id="28a-NQ-DlN" customClass="ACDatePickerCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="256"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="28a-NQ-DlN" id="gXO-vg-orJ">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="255.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U5G-rt-dVJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="42"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="42" id="XVi-6E-S24"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="15"/>
+                        <inset key="contentEdgeInsets" minX="11" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <state key="normal" title="Button">
+                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="toggle:" destination="28a-NQ-DlN" eventType="touchUpInside" id="hHU-dg-FDB"/>
+                        </connections>
+                    </button>
+                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="fes-2B-wIY">
+                        <rect key="frame" x="0.0" y="40" width="375" height="216"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="216" id="AwG-48-cYZ"/>
+                        </constraints>
+                        <date key="date" timeIntervalSinceReferenceDate="472620305.10681999">
+                            <!--2015-12-24 03:25:05 +0000-->
+                        </date>
+                        <connections>
+                            <action selector="dateChanged:" destination="28a-NQ-DlN" eventType="valueChanged" id="Uel-cP-TLD"/>
+                        </connections>
+                    </datePicker>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kYi-aM-83a">
+                        <rect key="frame" x="325" y="10" width="42" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="fes-2B-wIY" firstAttribute="leading" secondItem="gXO-vg-orJ" secondAttribute="leadingMargin" constant="-8" id="0Rs-RT-srM"/>
+                    <constraint firstItem="kYi-aM-83a" firstAttribute="centerY" secondItem="U5G-rt-dVJ" secondAttribute="centerY" id="0tR-GC-r25"/>
+                    <constraint firstItem="fes-2B-wIY" firstAttribute="leading" secondItem="gXO-vg-orJ" secondAttribute="leading" id="2TA-zj-dqb"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="fes-2B-wIY" secondAttribute="trailing" constant="-8" id="Fcm-8T-1xD"/>
+                    <constraint firstItem="U5G-rt-dVJ" firstAttribute="top" secondItem="gXO-vg-orJ" secondAttribute="topMargin" constant="-8" id="JLA-24-HzJ"/>
+                    <constraint firstAttribute="bottom" secondItem="fes-2B-wIY" secondAttribute="bottom" id="JeK-kR-rpT"/>
+                    <constraint firstItem="fes-2B-wIY" firstAttribute="top" secondItem="U5G-rt-dVJ" secondAttribute="bottom" constant="-2" id="RfN-je-Qyn"/>
+                    <constraint firstAttribute="trailing" secondItem="fes-2B-wIY" secondAttribute="trailing" id="UNq-Ck-y2b"/>
+                    <constraint firstItem="U5G-rt-dVJ" firstAttribute="leading" secondItem="gXO-vg-orJ" secondAttribute="leadingMargin" constant="-8" id="b2j-AC-yiU"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="fes-2B-wIY" secondAttribute="bottom" constant="-8.5" id="bn1-By-lUE"/>
+                    <constraint firstItem="kYi-aM-83a" firstAttribute="trailing" secondItem="gXO-vg-orJ" secondAttribute="trailingMargin" id="dRR-ej-yR5"/>
+                    <constraint firstItem="fes-2B-wIY" firstAttribute="top" secondItem="U5G-rt-dVJ" secondAttribute="top" id="h5N-xb-njw"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="U5G-rt-dVJ" secondAttribute="trailing" constant="-8" id="jCI-WD-2rZ"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="0Rs-RT-srM"/>
+                        <exclude reference="Fcm-8T-1xD"/>
+                        <exclude reference="bn1-By-lUE"/>
+                        <exclude reference="h5N-xb-njw"/>
+                    </mask>
+                </variation>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="heightConstraint" destination="AwG-48-cYZ" id="vl6-23-lYH"/>
+                <outlet property="picker" destination="fes-2B-wIY" id="2zp-pL-eAN"/>
+                <outlet property="stateLabel" destination="kYi-aM-83a" id="Ph4-Dh-xN8"/>
+                <outlet property="toggleButton" destination="U5G-rt-dVJ" id="VFm-hH-1as"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

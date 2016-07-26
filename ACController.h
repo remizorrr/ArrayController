@@ -10,7 +10,7 @@
 
 static NSString* VCRCellKey = @"VCRCellKey";
 static NSString* VCRConfigureKey = @"VCRConfigureKey";
-static NSString* VCRHeightKey = @"VCRHeightKey";
+static NSString* VCRSizeKey = @"VCRSizeKey";
 static NSString* VCRSelectKey = @"VCRSelectKey";
 static NSString* VCRDeleteKey = @"VCRDeleteKey";
 static NSString* VCREditKey = @"VCREditKey";
@@ -18,21 +18,20 @@ static NSString* VCRCellTypeSectionKey = @"VCRCellTypeSectionKey";
 
 typedef void(^VCRConfigureBlock)(id cell, NSIndexPath* indexPath);
 typedef void(^VCRSelecteBlock)(NSIndexPath* indexPath);
-typedef float(^VCRHeightBlock)();
+typedef CGSize(^VCRSizeBlock)();
 
 @interface NSDictionary (ACController)
-
-+ (NSDictionary*) headerWithCell:(NSString*)cell height:(float)height
-                     configure:(VCRConfigureBlock)configure;
-+ (NSDictionary*) itemWithCell:(NSString*)cell height:(float)height
++ (NSDictionary*) headerWithCell:(NSString*)cell size:(CGSize)size
+                       configure:(VCRConfigureBlock)configure;
++ (NSDictionary*) itemWithCell:(NSString*)cell size:(CGSize)size
                      configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select;
-+ (NSDictionary*) itemWithCell:(NSString*)cell heightBlock:(VCRHeightBlock)height
++ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(VCRSizeBlock)height
                      configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select;
-+ (NSDictionary*) itemWithCell:(NSString*)cell heightBlock:(VCRHeightBlock)height configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select delete:(VCRSelecteBlock)delete;
-
-+ (NSDictionary*) itemWithCell:(NSString*)cell heightBlock:(VCRHeightBlock)height configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select delete:(VCRSelecteBlock)delete edit:(VCRSelecteBlock)edit ;
-+ (NSDictionary*) itemWithCell:(NSString*)cell height:(float)height;
++ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(VCRSizeBlock)height configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select delete:(VCRSelecteBlock)delete;
++ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(VCRSizeBlock)height configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select delete:(VCRSelecteBlock)delete edit:(VCRSelecteBlock)edit ;
++ (NSDictionary*) itemWithCell:(NSString*)cell size:(CGSize)size;
 @end
+
 
 @interface ACController : NSObject <UITableViewDelegate, UITableViewDataSource>
 
@@ -41,7 +40,7 @@ typedef float(^VCRHeightBlock)();
 @property (nonatomic, weak) IBOutlet id<UITableViewDelegate> delegate;
 @property (nonatomic, weak) IBOutlet id<UITableViewDataSource> dataSource;
 @property (nonatomic, copy) void(^didScrollBlock)(UIScrollView* scrollView) ;
-
+@property (nonatomic, assign) BOOL staticCellHeight;
 - (void)setViewModel:(NSArray *)viewModel reloadData:(BOOL)reload;
 
 @end

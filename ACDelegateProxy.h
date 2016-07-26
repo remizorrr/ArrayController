@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ACDelegateProxy : NSObject<UITableViewDelegate, UITableViewDataSource>
+@interface ACDelegateProxy : NSObject<UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource>
 {
     @public
     id _originalDelegate;

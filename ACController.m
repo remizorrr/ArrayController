@@ -13,10 +13,10 @@
 
 @implementation NSDictionary (ACController)
 
-+ (NSDictionary*) itemWithCell:(NSString*)cell height:(float)height configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select {
++ (NSDictionary*) itemWithCell:(NSString*)cell size:(CGSize)size configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select {
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
     dict[VCRCellKey] = cell;
-    dict[VCRHeightKey] = @(height);
+    dict[VCRSizeKey] = [NSValue valueWithCGSize:size];
     if (configure) {
         dict[VCRConfigureKey] = configure;
     }
@@ -27,26 +27,26 @@
     return dict.copy;
 }
 
-+ (NSDictionary*) headerWithCell:(NSString*)cell height:(float)height
++ (NSDictionary*) headerWithCell:(NSString*)cell size:(CGSize)size
                        configure:(VCRConfigureBlock)configure {
-    NSMutableDictionary* dict = [self itemWithCell:cell height:height configure:configure select:nil].mutableCopy;
+    NSMutableDictionary* dict = [self itemWithCell:cell size:size configure:configure select:nil].mutableCopy;
     dict[VCRCellTypeSectionKey] = @YES;
     return dict.copy;
 }
 
 
-+ (NSDictionary*) itemWithCell:(NSString*)cell heightBlock:(VCRHeightBlock)height configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select {
-    return [self itemWithCell:cell heightBlock:height configure:configure select:select delete:nil];
++ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(VCRSizeBlock)sizeBlock configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select {
+    return [self itemWithCell:cell sizeBlock:sizeBlock configure:configure select:select delete:nil];
 }
 
-+ (NSDictionary*) itemWithCell:(NSString*)cell heightBlock:(VCRHeightBlock)height configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select delete:(VCRSelecteBlock)delete {
-    return [self itemWithCell:cell heightBlock:height configure:configure select:select delete:delete edit:nil];
++ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(VCRSizeBlock)sizeBlock configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select delete:(VCRSelecteBlock)delete {
+    return [self itemWithCell:cell sizeBlock:sizeBlock configure:configure select:select delete:delete edit:nil];
 }
 
-+ (NSDictionary*) itemWithCell:(NSString*)cell heightBlock:(VCRHeightBlock)height configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select delete:(VCRSelecteBlock)delete edit:(VCRSelecteBlock)edit {
++ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(VCRSizeBlock)sizeBlock configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select delete:(VCRSelecteBlock)delete edit:(VCRSelecteBlock)edit {
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
     dict[VCRCellKey] = cell;
-    dict[VCRHeightKey] = height;
+    dict[VCRSizeKey] = sizeBlock;
     if (configure) {
         dict[VCRConfigureKey] = configure;
     }
@@ -62,9 +62,9 @@
     return dict.copy;
 }
 
-+ (NSDictionary*) itemWithCell:(NSString*)cell height:(float)height {
++ (NSDictionary*) itemWithCell:(NSString*)cell size:(CGSize)size {
     return @{VCRCellKey:cell,
-             VCRHeightKey:@(height)
+             VCRSizeKey:[NSValue valueWithCGSize:size]
              };
 }
 
@@ -175,13 +175,13 @@
     if (!sectionDict) {
         return 0.0;
     }
-    NSNumber* height = sectionDict[VCRHeightKey];
+    NSValue* size = sectionDict[VCRSizeKey];
     float floatHeight;
-    if (![height isKindOfClass:[NSNumber class]]) {
-        VCRHeightBlock block = (id)height;
-        floatHeight = block();
+    if (![size isKindOfClass:[NSValue class]]) {
+        VCRSizeBlock block = (id)size;
+        floatHeight = block().height;
     } else {
-        floatHeight = height.floatValue;
+        floatHeight = size.CGSizeValue.height;
     }
     return floatHeight;
 }
@@ -217,14 +217,13 @@
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray* children = self.viewModel[indexPath.section][@"children"];
     NSDictionary* item = children[indexPath.row];
-    NSNumber* height = item[VCRHeightKey];
-    
+    NSValue* size = item[VCRSizeKey];
     float floatHeight;
-    if (![height isKindOfClass:[NSNumber class]]) {
-        VCRHeightBlock block = (id)height;
-        floatHeight = block();
+    if (![size isKindOfClass:[NSValue class]]) {
+        VCRSizeBlock block = (id)size;
+        floatHeight = block().height;
     } else {
-        floatHeight = height.floatValue;
+        floatHeight = size.CGSizeValue.height;
     }
     return floatHeight;
 }
@@ -232,14 +231,13 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray* children = self.viewModel[indexPath.section][@"children"];
     NSDictionary* item = children[indexPath.row];
-    NSNumber* height = item[VCRHeightKey];
-    
+    NSValue* size = item[VCRSizeKey];
     float floatHeight;
-    if (![height isKindOfClass:[NSNumber class]]) {
-        VCRHeightBlock block = (id)height;
-        floatHeight = block();
+    if (![size isKindOfClass:[NSValue class]]) {
+        VCRSizeBlock block = (id)size;
+        floatHeight = block().height;
     } else {
-        floatHeight = height.floatValue;
+        floatHeight = size.CGSizeValue.height;
     }
     return floatHeight;
 }

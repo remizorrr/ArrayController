@@ -1,5 +1,5 @@
 //
-//  VCRArrayController.m
+//  ACArrayController.m
 //  Vacarious
 //
 //  Created by Anton Remizov on 9/26/15.
@@ -13,58 +13,58 @@
 
 @implementation NSDictionary (ACController)
 
-+ (NSDictionary*) itemWithCell:(NSString*)cell size:(CGSize)size configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select {
++ (NSDictionary*) itemWithCell:(NSString*)cell size:(CGSize)size configure:(ACConfigureBlock)configure select:(ACSelecteBlock)select {
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
-    dict[VCRCellKey] = cell;
-    dict[VCRSizeKey] = [NSValue valueWithCGSize:size];
+    dict[ACCellKey] = cell;
+    dict[ACSizeKey] = [NSValue valueWithCGSize:size];
     if (configure) {
-        dict[VCRConfigureKey] = configure;
+        dict[ACConfigureKey] = configure;
     }
     if (select) {
-        dict[VCRSelectKey] = select;
+        dict[ACSelectKey] = select;
     }
     
     return dict.copy;
 }
 
 + (NSDictionary*) headerWithCell:(NSString*)cell size:(CGSize)size
-                       configure:(VCRConfigureBlock)configure {
+                       configure:(ACConfigureBlock)configure {
     NSMutableDictionary* dict = [self itemWithCell:cell size:size configure:configure select:nil].mutableCopy;
-    dict[VCRCellTypeSectionKey] = @YES;
+    dict[ACCellTypeSectionKey] = @YES;
     return dict.copy;
 }
 
 
-+ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(VCRSizeBlock)sizeBlock configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select {
++ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(ACSizeBlock)sizeBlock configure:(ACConfigureBlock)configure select:(ACSelecteBlock)select {
     return [self itemWithCell:cell sizeBlock:sizeBlock configure:configure select:select delete:nil];
 }
 
-+ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(VCRSizeBlock)sizeBlock configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select delete:(VCRSelecteBlock)delete {
++ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(ACSizeBlock)sizeBlock configure:(ACConfigureBlock)configure select:(ACSelecteBlock)select delete:(ACSelecteBlock)delete {
     return [self itemWithCell:cell sizeBlock:sizeBlock configure:configure select:select delete:delete edit:nil];
 }
 
-+ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(VCRSizeBlock)sizeBlock configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select delete:(VCRSelecteBlock)delete edit:(VCRSelecteBlock)edit {
++ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(ACSizeBlock)sizeBlock configure:(ACConfigureBlock)configure select:(ACSelecteBlock)select delete:(ACSelecteBlock)delete edit:(ACSelecteBlock)edit {
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
-    dict[VCRCellKey] = cell;
-    dict[VCRSizeKey] = sizeBlock;
+    dict[ACCellKey] = cell;
+    dict[ACSizeKey] = sizeBlock;
     if (configure) {
-        dict[VCRConfigureKey] = configure;
+        dict[ACConfigureKey] = configure;
     }
     if (select) {
-        dict[VCRSelectKey] = select;
+        dict[ACSelectKey] = select;
     }
     if (delete) {
-        dict[VCRDeleteKey] = delete;
+        dict[ACDeleteKey] = delete;
     }
     if (edit) {
-        dict[VCREditKey] = edit;
+        dict[ACEditKey] = edit;
     }
     return dict.copy;
 }
 
 + (NSDictionary*) itemWithCell:(NSString*)cell size:(CGSize)size {
-    return @{VCRCellKey:cell,
-             VCRSizeKey:[NSValue valueWithCGSize:size]
+    return @{ACCellKey:cell,
+             ACSizeKey:[NSValue valueWithCGSize:size]
              };
 }
 
@@ -121,7 +121,7 @@
     if(!viewModel.count) {
         return;
     }
-    if([viewModel[0][VCRCellTypeSectionKey] boolValue]) {
+    if([viewModel[0][ACCellTypeSectionKey] boolValue]) {
         section[@"cell"] = viewModel[0];
         startIndex = 1;
     }
@@ -129,7 +129,7 @@
     section[@"children"] = cells;
     for (NSInteger i = startIndex; i < viewModel.count; ++i) {
         NSDictionary* item = viewModel[i];
-        if([viewModel[i][VCRCellTypeSectionKey] boolValue]) {
+        if([viewModel[i][ACCellTypeSectionKey] boolValue]) {
             cells = [NSMutableArray array];
             section = [NSMutableDictionary dictionary];
             section[@"children"] = cells;
@@ -158,11 +158,11 @@
     NSArray* children = self.viewModel[indexPath.section][@"children"];
     NSDictionary* item = children[indexPath.row];
     
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:item[VCRCellKey]];
+    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:item[ACCellKey]];
     if (!cell) {
-        NSLog(@"ArrayController Warning: Cab't create cell with identifier %@",item[VCRCellKey]);
+        NSLog(@"ArrayController Warning: Cab't create cell with identifier %@",item[ACCellKey]);
     }
-    VCRConfigureBlock block = item[VCRConfigureKey];
+    ACConfigureBlock block = item[ACConfigureKey];
     if (block) {
         block(cell, indexPath);
     }
@@ -175,10 +175,10 @@
     if (!sectionDict) {
         return 0.0;
     }
-    NSValue* size = sectionDict[VCRSizeKey];
+    NSValue* size = sectionDict[ACSizeKey];
     float floatHeight;
     if (![size isKindOfClass:[NSValue class]]) {
-        VCRSizeBlock block = (id)size;
+        ACSizeBlock block = (id)size;
         floatHeight = block().height;
     } else {
         floatHeight = size.CGSizeValue.height;
@@ -192,11 +192,11 @@
         return nil;
     }
     
-    UIView* view = [tableView dequeueReusableCellWithIdentifier:item[VCRCellKey]];
+    UIView* view = [tableView dequeueReusableCellWithIdentifier:item[ACCellKey]];
     if (!view) {
-        NSLog(@"ArrayController Warning: Cab't create cell with identifier %@",item[VCRCellKey]);
+        NSLog(@"ArrayController Warning: Cab't create cell with identifier %@",item[ACCellKey]);
     }
-    VCRConfigureBlock block = item[VCRConfigureKey];
+    ACConfigureBlock block = item[ACConfigureKey];
     if (block) {
         block(view, [NSIndexPath indexPathForRow:0 inSection:section]);
     }
@@ -217,10 +217,10 @@
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray* children = self.viewModel[indexPath.section][@"children"];
     NSDictionary* item = children[indexPath.row];
-    NSValue* size = item[VCRSizeKey];
+    NSValue* size = item[ACSizeKey];
     float floatHeight;
     if (![size isKindOfClass:[NSValue class]]) {
-        VCRSizeBlock block = (id)size;
+        ACSizeBlock block = (id)size;
         floatHeight = block().height;
     } else {
         floatHeight = size.CGSizeValue.height;
@@ -231,10 +231,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray* children = self.viewModel[indexPath.section][@"children"];
     NSDictionary* item = children[indexPath.row];
-    NSValue* size = item[VCRSizeKey];
+    NSValue* size = item[ACSizeKey];
     float floatHeight;
     if (![size isKindOfClass:[NSValue class]]) {
-        VCRSizeBlock block = (id)size;
+        ACSizeBlock block = (id)size;
         floatHeight = block().height;
     } else {
         floatHeight = size.CGSizeValue.height;
@@ -247,7 +247,7 @@
     NSDictionary* item = children[indexPath.row];
 
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    void (^block)(NSIndexPath* indexPath) = item[VCRSelectKey];
+    void (^block)(NSIndexPath* indexPath) = item[ACSelectKey];
     if (!block) {
         return;
     }
@@ -263,8 +263,8 @@
 -  (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray* children = self.viewModel[indexPath.section][@"children"];
     NSDictionary* item = children[indexPath.row];
-    VCRSelecteBlock deleteBlock = item[VCRDeleteKey];
-    VCRSelecteBlock editBlock = item[VCREditKey];
+    ACSelecteBlock deleteBlock = item[ACDeleteKey];
+    ACSelecteBlock editBlock = item[ACEditKey];
     
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
     NSMutableArray* actions = [NSMutableArray array];
@@ -308,8 +308,8 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray* children = self.viewModel[indexPath.section][@"children"];
     NSDictionary* item = children[indexPath.row];
-    VCRSelecteBlock deleteBlock = item[VCRDeleteKey];
-    VCRSelecteBlock editBlock = item[VCREditKey];
+    ACSelecteBlock deleteBlock = item[ACDeleteKey];
+    ACSelecteBlock editBlock = item[ACEditKey];
     return deleteBlock || editBlock;
 }
 

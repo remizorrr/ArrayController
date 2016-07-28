@@ -1,5 +1,5 @@
 //
-//  VCRArrayController.m
+//  ACArrayController.m
 //  Vacarious
 //
 //  Created by Anton Remizov on 9/26/15.
@@ -62,7 +62,7 @@
     if(!viewModel.count) {
         return;
     }
-    if([viewModel[0][VCRCellTypeSectionKey] boolValue]) {
+    if([viewModel[0][ACCellTypeSectionKey] boolValue]) {
         section[@"cell"] = viewModel[0];
         startIndex = 1;
     }
@@ -70,7 +70,7 @@
     section[@"children"] = cells;
     for (NSInteger i = startIndex; i < viewModel.count; ++i) {
         NSDictionary* item = viewModel[i];
-        if([viewModel[i][VCRCellTypeSectionKey] boolValue]) {
+        if([viewModel[i][ACCellTypeSectionKey] boolValue]) {
             cells = [NSMutableArray array];
             section = [NSMutableDictionary dictionary];
             section[@"children"] = cells;
@@ -99,11 +99,11 @@
     NSArray* children = self.viewModel[indexPath.section][@"children"];
     NSDictionary* item = children[indexPath.row];
     
-    UICollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:item[VCRCellKey] forIndexPath:indexPath];
+    UICollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:item[ACCellKey] forIndexPath:indexPath];
     if (!cell) {
-        NSLog(@"ArrayController Warning: Cab't create cell with identifier %@",item[VCRCellKey]);
+        NSLog(@"ArrayController Warning: Cab't create cell with identifier %@",item[ACCellKey]);
     }
-    VCRConfigureBlock block = item[VCRConfigureKey];
+    ACConfigureBlock block = item[ACConfigureKey];
     if (block) {
         block(cell, indexPath);
     }
@@ -119,10 +119,10 @@
     if (!cellDict) {
         return CGSizeZero;
     }
-    NSValue* size = cellDict[VCRSizeKey];
+    NSValue* size = cellDict[ACSizeKey];
     CGSize floatSize;
     if (![size isKindOfClass:[NSValue class]]) {
-        VCRSizeBlock block = (id)size;
+        ACSizeBlock block = (id)size;
         floatSize = block();
     } else {
         floatSize = size.CGSizeValue;
@@ -136,11 +136,11 @@
         return nil;
     }
     
-    UICollectionReusableView* view = [collectionView dequeueReusableCellWithReuseIdentifier:item[VCRCellKey] forIndexPath:indexPath];
+    UICollectionReusableView* view = [collectionView dequeueReusableCellWithReuseIdentifier:item[ACCellKey] forIndexPath:indexPath];
     if (!view) {
-        NSLog(@"ArrayController Warning: Cab't create cell with identifier %@",item[VCRCellKey]);
+        NSLog(@"ArrayController Warning: Cab't create cell with identifier %@",item[ACCellKey]);
     }
-    VCRConfigureBlock block = item[VCRConfigureKey];
+    ACConfigureBlock block = item[ACConfigureKey];
     if (block) {
         block(view, indexPath);
     }
@@ -151,7 +151,7 @@
     NSArray* children = self.viewModel[indexPath.section][@"children"];
     NSDictionary* item = children[indexPath.row];
 
-    void (^block)(NSIndexPath* indexPath) = item[VCRSelectKey];
+    void (^block)(NSIndexPath* indexPath) = item[ACSelectKey];
     if (!block) {
         return;
     }

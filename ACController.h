@@ -1,5 +1,5 @@
 //
-//  VCRArrayController.h
+//  ACArrayController.h
 //  Vacarious
 //
 //  Created by Anton Remizov on 9/26/15.
@@ -8,27 +8,27 @@
 
 #import <UIKit/UIKit.h>
 
-static NSString* VCRCellKey = @"VCRCellKey";
-static NSString* VCRConfigureKey = @"VCRConfigureKey";
-static NSString* VCRSizeKey = @"VCRSizeKey";
-static NSString* VCRSelectKey = @"VCRSelectKey";
-static NSString* VCRDeleteKey = @"VCRDeleteKey";
-static NSString* VCREditKey = @"VCREditKey";
-static NSString* VCRCellTypeSectionKey = @"VCRCellTypeSectionKey";
+static NSString* ACCellKey = @"ACCellKey";
+static NSString* ACConfigureKey = @"ACConfigureKey";
+static NSString* ACSizeKey = @"ACSizeKey";
+static NSString* ACSelectKey = @"ACSelectKey";
+static NSString* ACDeleteKey = @"ACDeleteKey";
+static NSString* ACEditKey = @"ACEditKey";
+static NSString* ACCellTypeSectionKey = @"ACCellTypeSectionKey";
 
-typedef void(^VCRConfigureBlock)(id cell, NSIndexPath* indexPath);
-typedef void(^VCRSelecteBlock)(NSIndexPath* indexPath);
-typedef CGSize(^VCRSizeBlock)();
+typedef void(^ACConfigureBlock)(id cell, NSIndexPath* indexPath);
+typedef void(^ACSelecteBlock)(NSIndexPath* indexPath);
+typedef CGSize(^ACSizeBlock)();
 
 @interface NSDictionary (ACController)
 + (NSDictionary*) headerWithCell:(NSString*)cell size:(CGSize)size
-                       configure:(VCRConfigureBlock)configure;
+                       configure:(ACConfigureBlock)configure;
 + (NSDictionary*) itemWithCell:(NSString*)cell size:(CGSize)size
-                     configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select;
-+ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(VCRSizeBlock)height
-                     configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select;
-+ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(VCRSizeBlock)height configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select delete:(VCRSelecteBlock)delete;
-+ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(VCRSizeBlock)height configure:(VCRConfigureBlock)configure select:(VCRSelecteBlock)select delete:(VCRSelecteBlock)delete edit:(VCRSelecteBlock)edit ;
+                     configure:(ACConfigureBlock)configure select:(ACSelecteBlock)select;
++ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(ACSizeBlock)height
+                     configure:(ACConfigureBlock)configure select:(ACSelecteBlock)select;
++ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(ACSizeBlock)height configure:(ACConfigureBlock)configure select:(ACSelecteBlock)select delete:(ACSelecteBlock)delete;
++ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(ACSizeBlock)height configure:(ACConfigureBlock)configure select:(ACSelecteBlock)select delete:(ACSelecteBlock)delete edit:(ACSelecteBlock)edit ;
 + (NSDictionary*) itemWithCell:(NSString*)cell size:(CGSize)size;
 @end
 

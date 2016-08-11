@@ -19,4 +19,5 @@
 - (void) refreshModel;
 
 + (void) registerNib:(UINib*)nib forIdentifier:(NSString*)identifier;
++ (void) registerClass:(Class)class forIdentifier:(NSString*)identifier;
 @end

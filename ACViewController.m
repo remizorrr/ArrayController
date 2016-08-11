@@ -9,6 +9,7 @@
 #import "ACViewController.h"
 
 static NSMutableDictionary* _VCRArrayViewControllerRegisteredNibs = nil;
+static NSMutableDictionary* _VCRArrayViewControllerRegisteredClasses = nil;
 
 @interface ACViewController ()
 {
@@ -41,6 +42,9 @@ static NSMutableDictionary* _VCRArrayViewControllerRegisteredNibs = nil;
     [ACViewController registerNib:[UINib nibWithNibName:@"ACHeaderCell"
                                                  bundle:nil]
                     forIdentifier:@"ACHeaderCell"];
+    [ACViewController registerClass:[UITableViewCell class]
+                    forIdentifier:@"UITableViewCell"];
+
 }
 
 - (instancetype)init
@@ -66,6 +70,10 @@ static NSMutableDictionary* _VCRArrayViewControllerRegisteredNibs = nil;
     _tableView.tableFooterView = [UIView new];
     for (NSString* key in _VCRArrayViewControllerRegisteredNibs) {
         [_tableView registerNib:_VCRArrayViewControllerRegisteredNibs[key]
+         forCellReuseIdentifier:key];
+    }
+    for (NSString* key in _VCRArrayViewControllerRegisteredClasses) {
+        [_tableView registerClass:_VCRArrayViewControllerRegisteredClasses[key]
          forCellReuseIdentifier:key];
     }
     [self refreshModel];
@@ -125,5 +133,13 @@ static NSMutableDictionary* _VCRArrayViewControllerRegisteredNibs = nil;
     }
     _VCRArrayViewControllerRegisteredNibs[identifier] = nib;
 }
+
++ (void) registerClass:(Class)class forIdentifier:(NSString*)identifier {
+    if (!_VCRArrayViewControllerRegisteredClasses) {
+        _VCRArrayViewControllerRegisteredClasses = [NSMutableDictionary dictionary];
+    }
+    _VCRArrayViewControllerRegisteredClasses[identifier] = class;
+}
+
 
 @end

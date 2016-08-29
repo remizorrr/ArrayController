@@ -11,8 +11,9 @@
 
 @interface ACViewController : UIViewController
 
-@property (nonatomic, readonly) UITableView* tableView;
+@property (nonatomic, readonly) IBOutlet UITableView* tableView;
 @property (nonatomic, copy) void(^completionBlock)(BOOL save);
+@property (nonatomic, strong) ACController* arrayController;
 
 - (void) setViewModel:(NSArray*)viewModel;
 - (void) setViewModelBlock:(NSArray*(^)())vmBlock;

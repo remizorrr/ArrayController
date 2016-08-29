@@ -17,7 +17,6 @@ static NSMutableDictionary* _VCRArrayViewControllerRegisteredClasses = nil;
     NSArray*(^_vmBlock)();
 }
 
-@property (nonatomic, strong) ACController* arrayController;
 
 @end
 
@@ -51,6 +50,7 @@ static NSMutableDictionary* _VCRArrayViewControllerRegisteredClasses = nil;
 {
     self = [super init];
     if (self) {
+        self.arrayController = [ACController new];
         self.navigationItem.hidesBackButton = YES;
 //        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save:)];
@@ -58,12 +58,22 @@ static NSMutableDictionary* _VCRArrayViewControllerRegisteredClasses = nil;
     return self;
 }
 
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        self.arrayController = [ACController new];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.arrayController = [ACController new];
-    _tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
-    [_tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
-    [self.view addSubview:_tableView];
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+        [_tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
+        [self.view addSubview:_tableView];
+    }
     self.arrayController.collection = _tableView;
     _tableView.dataSource = self.arrayController;
     _tableView.delegate = self.arrayController;

@@ -43,6 +43,9 @@ static NSMutableDictionary* _VCRArrayViewControllerRegisteredClasses = nil;
                     forIdentifier:@"ACHeaderCell"];
     [ACViewController registerClass:[UITableViewCell class]
                     forIdentifier:@"UITableViewCell"];
+    [ACViewController registerNib:[UINib nibWithNibName:@"ACEditCell"
+                                                 bundle:nil]
+                    forIdentifier:@"ACEditCell"];
 
 }
 

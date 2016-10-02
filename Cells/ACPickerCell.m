@@ -8,7 +8,7 @@
 
 #import "ACPickerCell.h"
 
-extern NSString* ACPickerCellIdentifier;
+NSString* ACPickerCellIdentifier = @"ACPickerCell";
 
 @interface ACPickerCell() <UIPickerViewDelegate, UIPickerViewDataSource>
 

@@ -11,6 +11,8 @@
 static NSMutableDictionary* _VCRArrayViewControllerRegisteredNibs = nil;
 static NSMutableDictionary* _VCRArrayViewControllerRegisteredClasses = nil;
 
+NSString* ACCellIdentifier = @"UITableViewCell";
+
 @interface ACViewController ()
 {
     UITableView* _tableView;
@@ -25,25 +27,27 @@ static NSMutableDictionary* _VCRArrayViewControllerRegisteredClasses = nil;
 + (void)initialize {
     [ACViewController registerNib:[UINib nibWithNibName:@"ACCountCell"
                                                  bundle:nil]
-                    forIdentifier:@"ACCountCell"];
+                    forIdentifier:ACCountCellIdentifier];
     [ACViewController registerNib:[UINib nibWithNibName:@"ACPickerCell"
                                                  bundle:nil]
-                    forIdentifier:@"ACPickerCell"];
+                    forIdentifier:ACPickerCellIdentifier];
     [ACViewController registerNib:[UINib nibWithNibName:@"ACSwitchCell"
                                                  bundle:nil]
-                    forIdentifier:@"ACSwitchCell"];
+                    forIdentifier:ACSwitchCellIdentifier];
     [ACViewController registerNib:[UINib nibWithNibName:@"ACDatePickerCell"
                                                  bundle:nil]
-                    forIdentifier:@"ACDatePickerCell"];
+                    forIdentifier:ACDatePickerCellIdentifier];
     [ACViewController registerNib:[UINib nibWithNibName:@"ACActionCell"
                                                  bundle:nil]
-                    forIdentifier:@"ACActionCell"];
+                    forIdentifier:ACActionCellIdentifier];
     [ACViewController registerNib:[UINib nibWithNibName:@"ACHeaderCell"
                                                  bundle:nil]
-                    forIdentifier:@"ACHeaderCell"];
+                    forIdentifier:ACHeaderCellIdentifier];
     [ACViewController registerClass:[UITableViewCell class]
-                    forIdentifier:@"UITableViewCell"];
-
+                    forIdentifier:ACCellIdentifier];
+    [ACViewController registerNib:[UINib nibWithNibName:@"ACEditCell"
+                                                 bundle:nil]
+                    forIdentifier:ACEditCellIdentifier];
 }
 
 - (instancetype)init
@@ -51,9 +55,7 @@ static NSMutableDictionary* _VCRArrayViewControllerRegisteredClasses = nil;
     self = [super init];
     if (self) {
         self.arrayController = [ACController new];
-        self.navigationItem.hidesBackButton = YES;
-//        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save:)];
+        self.navigationState = ACViewControllerNavigationStateDefault;
     }
     return self;
 }
@@ -63,12 +65,35 @@ static NSMutableDictionary* _VCRArrayViewControllerRegisteredClasses = nil;
     self = [super initWithCoder:coder];
     if (self) {
         self.arrayController = [ACController new];
+        self.navigationState = ACViewControllerNavigationStateDefault;
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    switch (self.navigationState) {
+        case ACViewControllerNavigationStateBack:
+            self.navigationItem.leftBarButtonItem = nil;
+            self.navigationItem.rightBarButtonItem = nil;
+            self.navigationItem.hidesBackButton = NO;
+            break;
+        case ACViewControllerNavigationStateSaveCancle:
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save:)];
+            self.navigationItem.hidesBackButton = YES;
+            break;
+        case ACViewControllerNavigationStateDone:
+            self.navigationItem.leftBarButtonItem = nil;
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save:)];
+            self.navigationItem.hidesBackButton = YES;
+            break;
+         case ACViewControllerNavigationStateDefault:
+            break;
+        default:
+            break;
+    }
+
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
         [_tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];

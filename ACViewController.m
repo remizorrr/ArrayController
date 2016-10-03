@@ -48,6 +48,9 @@ NSString* ACCellIdentifier = @"UITableViewCell";
     [ACViewController registerNib:[UINib nibWithNibName:@"ACEditCell"
                                                  bundle:nil]
                     forIdentifier:ACEditCellIdentifier];
+    [ACViewController registerNib:[UINib nibWithNibName:@"ACEditCell"
+                                                 bundle:nil]
+                    forIdentifier:@"ACEditCell"];
 }
 
 - (instancetype)init

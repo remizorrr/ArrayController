@@ -60,6 +60,10 @@
     [sections addObject:section];
     NSInteger startIndex = 0;
     if(!viewModel.count) {
+        _viewModel = sections;
+        if (reload) {
+            [self.collection reloadData];
+        }
         return;
     }
     if([viewModel[0][ACCellTypeSectionKey] boolValue]) {

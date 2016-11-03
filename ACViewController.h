@@ -35,6 +35,8 @@ extern NSString* ACCellIdentifier;
 - (void) setViewModel:(NSArray*)viewModel;
 - (void) setViewModelBlock:(NSArray*(^)())vmBlock;
 - (void) refreshModel;
+- (void) setCustomSaveTitle:(NSString*)saveTitle cancelTitle:(NSString*)cancelTitle;
+
 
 + (void) registerNib:(UINib*)nib forIdentifier:(NSString*)identifier;
 + (void) registerClass:(Class)class forIdentifier:(NSString*)identifier;

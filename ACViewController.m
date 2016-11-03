@@ -17,6 +17,8 @@ NSString* ACCellIdentifier = @"UITableViewCell";
 {
     UITableView* _tableView;
     NSArray*(^_vmBlock)();
+    NSString* _saveTitle;
+    NSString* _cancelTitle;
 }
 
 
@@ -73,28 +75,49 @@ NSString* ACCellIdentifier = @"UITableViewCell";
     return self;
 }
 
+- (void) setCustomSaveTitle:(NSString*)saveTitle cancelTitle:(NSString*)cancelTitle {
+    _saveTitle = saveTitle;
+    _cancelTitle = cancelTitle;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    switch (self.navigationState) {
-        case ACViewControllerNavigationStateBack:
-            self.navigationItem.leftBarButtonItem = nil;
-            self.navigationItem.rightBarButtonItem = nil;
-            self.navigationItem.hidesBackButton = NO;
-            break;
-        case ACViewControllerNavigationStateSaveCancle:
-            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
-            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save:)];
-            self.navigationItem.hidesBackButton = YES;
-            break;
-        case ACViewControllerNavigationStateDone:
-            self.navigationItem.leftBarButtonItem = nil;
-            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save:)];
-            self.navigationItem.hidesBackButton = YES;
-            break;
-         case ACViewControllerNavigationStateDefault:
-            break;
-        default:
-            break;
+    if (_saveTitle || _cancelTitle) {
+        if (_cancelTitle) {
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:_cancelTitle
+                                                                                     style:UIBarButtonItemStyleDone
+                                                                                    target:self
+                                                                                    action:@selector(cancel:)];
+        }
+        if (_saveTitle) {
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:_saveTitle
+                                                                                      style:UIBarButtonItemStyleDone
+                                                                                     target:self
+                                                                                     action:@selector(save:)];
+        }
+        self.navigationItem.hidesBackButton = YES;
+    } else {
+        switch (self.navigationState) {
+            case ACViewControllerNavigationStateBack:
+                self.navigationItem.leftBarButtonItem = nil;
+                self.navigationItem.rightBarButtonItem = nil;
+                self.navigationItem.hidesBackButton = NO;
+                break;
+            case ACViewControllerNavigationStateSaveCancle:
+                self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
+                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save:)];
+                self.navigationItem.hidesBackButton = YES;
+                break;
+            case ACViewControllerNavigationStateDone:
+                self.navigationItem.leftBarButtonItem = nil;
+                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save:)];
+                self.navigationItem.hidesBackButton = YES;
+                break;
+             case ACViewControllerNavigationStateDefault:
+                break;
+            default:
+                break;
+        }
     }
 
     if (!_tableView) {
@@ -125,11 +148,18 @@ NSString* ACCellIdentifier = @"UITableViewCell";
 };
 
 - (IBAction)save:(id)sender {
+    if (![self willSave]) {
+        return;
+    }
     if (self.completionBlock) {
         self.completionBlock(YES);
     }
     [self.navigationController popViewControllerAnimated:YES];
 };
+
+- (BOOL) willSave {
+    return YES;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

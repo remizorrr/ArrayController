@@ -44,6 +44,10 @@
 }
 
 + (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(ACSizeBlock)sizeBlock configure:(ACConfigureBlock)configure select:(ACSelecteBlock)select delete:(ACSelecteBlock)delete edit:(ACSelecteBlock)edit {
+    return [self itemWithCell:cell sizeBlock:sizeBlock configure:configure select:select delete:delete edit:edit canMove:nil canMoveTo:nil didMoveTo:nil];
+}
+
++ (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(ACSizeBlock)sizeBlock configure:(ACConfigureBlock)configure select:(ACSelecteBlock)select delete:(ACSelecteBlock)delete edit:(ACSelecteBlock)edit canMove:(ACCanMoveBlock)canMove canMoveTo:(ACMoveToBlock)canMoveTo didMoveTo:(ACDidMoveToBlock)didMoveTo {
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
     dict[ACCellKey] = cell;
     dict[ACSizeKey] = sizeBlock;
@@ -59,8 +63,18 @@
     if (edit) {
         dict[ACEditKey] = edit;
     }
+    if (canMove) {
+        dict[ACCanMoveKey] = canMove;
+    }
+    if (canMoveTo) {
+        dict[ACCanMoveToKey] = canMoveTo;
+    }
+    if (didMoveTo) {
+        dict[ACDidMoveToKey] = didMoveTo;
+    }
     return dict.copy;
 }
+
 
 + (NSDictionary*) itemWithCell:(NSString*)cell size:(CGSize)size {
     return @{ACCellKey:cell,
@@ -114,12 +128,19 @@
 }
 
 - (void)setViewModel:(NSArray *)viewModel reloadData:(BOOL)reload {
+    _viewModel = [self _generateInternalViewModel:viewModel];
+    if (reload) {
+        [self.collection reloadData];
+    }
+}
+
+- (NSArray*) _generateInternalViewModel:(NSArray*)viewModel {
     NSMutableArray* sections = [NSMutableArray array];
     NSMutableDictionary* section = [NSMutableDictionary dictionary];
     [sections addObject:section];
     NSInteger startIndex = 0;
     if(!viewModel.count) {
-        return;
+        return @[];
     }
     if([viewModel[0][ACCellTypeSectionKey] boolValue]) {
         section[@"cell"] = viewModel[0];
@@ -140,12 +161,9 @@
             [cells addObject:item];
         }
     }
-    _viewModel = sections;
-
-    if (reload) {
-        [self.collection reloadData];
-    }
+    return sections;
 }
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.viewModel.count;
@@ -313,5 +331,56 @@
     return deleteBlock || editBlock;
 }
 
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSArray* children = self.viewModel[indexPath.section][@"children"];
+    NSDictionary* item = children[indexPath.row];
+    ACCanMoveBlock canMoveBlock = item[ACCanMoveKey];
+    BOOL value = canMoveBlock?canMoveBlock(indexPath):NO;
+    if (value) {
+        NSLog(@"Can Move");
+    }
+    return value;
+}
+
+-(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    NSArray* children = self.viewModel[sourceIndexPath.section][@"children"];
+    NSDictionary* item = children[sourceIndexPath.row];
+    ACDidMoveToBlock didMoveBlock = item[ACDidMoveToKey];
+    if (didMoveBlock) {
+        didMoveBlock(sourceIndexPath, destinationIndexPath);
+    }
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return UITableViewCellEditingStyleDelete;
+}
+
+//- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return NO;
+//}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
+    NSArray* children = self.viewModel[sourceIndexPath.section][@"children"];
+    NSDictionary* item = children[sourceIndexPath.row];
+    ACMoveToBlock moveToBlock = item[ACCanMoveToKey];
+    if (moveToBlock) {
+        return moveToBlock(sourceIndexPath, proposedDestinationIndexPath);
+    }
+    return proposedDestinationIndexPath;
+}
+
+- (NSIndexPath*)indexPathForItem:(NSDictionary*)item inViewModel:(NSArray*)viewModel {
+    NSArray* internalViewModel = [self _generateInternalViewModel:viewModel];
+    for (int i = 0; i < internalViewModel.count; ++i) {
+        NSArray* children = internalViewModel[i][@"children"];
+        for (int j = 0; j < children.count; ++j) {
+            if (children[j] == item) {
+                NSUInteger indexes[2] = {i, j};
+                return [[NSIndexPath alloc] initWithIndexes:indexes length:2];
+            }
+        }
+    }
+    return nil;
+}
 
 @end

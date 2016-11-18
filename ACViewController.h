@@ -16,6 +16,8 @@
 #import "ACSwitchCell.h"
 #import "ACDatePickerCell.h"
 #import "ACHeaderCell.h"
+#import "ACMultilineEditCell.h"
+#import "ACKeyboardHandler.h"
 
 typedef NS_ENUM(NSUInteger, ACViewControllerNavigationState) {
     ACViewControllerNavigationStateBack,
@@ -28,6 +30,7 @@ extern NSString* ACCellIdentifier;
 @interface ACViewController : UIViewController
 
 @property (nonatomic, readonly) IBOutlet UITableView* tableView;
+@property (nonatomic, readonly) ACKeyboardHandler* keyboardHandler;
 @property (nonatomic, copy) void(^completionBlock)(BOOL save);
 @property (nonatomic, strong) ACController* arrayController;
 @property (nonatomic, assign) ACViewControllerNavigationState navigationState;

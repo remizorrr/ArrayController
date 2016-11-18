@@ -50,9 +50,9 @@ NSString* ACCellIdentifier = @"UITableViewCell";
     [ACViewController registerNib:[UINib nibWithNibName:@"ACEditCell"
                                                  bundle:nil]
                     forIdentifier:ACEditCellIdentifier];
-    [ACViewController registerNib:[UINib nibWithNibName:@"ACEditCell"
+    [ACViewController registerNib:[UINib nibWithNibName:@"ACMultilineEditCell"
                                                  bundle:nil]
-                    forIdentifier:@"ACEditCell"];
+                    forIdentifier:ACMultilineEditCellIdentifier];
 }
 
 - (instancetype)init
@@ -61,6 +61,11 @@ NSString* ACCellIdentifier = @"UITableViewCell";
     if (self) {
         self.arrayController = [ACController new];
         self.navigationState = ACViewControllerNavigationStateDefault;
+        _keyboardHandler = [[ACKeyboardHandler alloc] initWithKeyboardAnimateBlock:^(CGFloat height) {
+            UIEdgeInsets inset = self.tableView.contentInset;
+            inset.bottom = height;
+            self.tableView.contentInset = inset;
+        }];
     }
     return self;
 }
@@ -71,6 +76,11 @@ NSString* ACCellIdentifier = @"UITableViewCell";
     if (self) {
         self.arrayController = [ACController new];
         self.navigationState = ACViewControllerNavigationStateDefault;
+        _keyboardHandler = [[ACKeyboardHandler alloc] initWithKeyboardAnimateBlock:^(CGFloat height) {
+            UIEdgeInsets inset = self.tableView.contentInset;
+            inset.bottom = height;
+            self.tableView.contentInset = inset;
+        }];
     }
     return self;
 }

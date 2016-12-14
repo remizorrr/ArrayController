@@ -328,7 +328,8 @@
     NSDictionary* item = children[indexPath.row];
     ACSelecteBlock deleteBlock = item[ACDeleteKey];
     ACSelecteBlock editBlock = item[ACEditKey];
-    return deleteBlock || editBlock;
+    ACCanMoveBlock canMoveBlock = item[ACCanMoveKey];
+    return deleteBlock || editBlock || canMoveBlock;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -352,7 +353,10 @@
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return UITableViewCellEditingStyleDelete;
+    NSArray* children = self.viewModel[indexPath.section][@"children"];
+    NSDictionary* item = children[indexPath.row];
+    ACSelecteBlock deleteBlock = item[ACDeleteKey];
+    return deleteBlock ? UITableViewCellEditingStyleDelete : UITableViewCellEditingStyleNone;
 }
 
 //- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -13,7 +13,7 @@ NSString* ACActionCellIdentifier = @"ACActionCell";
 @implementation ACActionCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    [super awakeFromNib];
     self.textLabel.font = [UIFont fontWithName:@"ProximaNova-Regular" size:17.0];
 }
 

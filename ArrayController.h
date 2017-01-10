@@ -8,6 +8,7 @@
 
 #import "ACViewController.h"
 #import "ACController.h"
+#import "ACCollectionController.h"
 #import "ACActionCell.h"
 #import "ACCountCell.h"
 #import "ACDatePickerCell.h"

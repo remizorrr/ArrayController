@@ -17,7 +17,7 @@ NSString* ACDatePickerCellIdentifier = @"ACDatePickerCell";
 @implementation ACDatePickerCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    [super awakeFromNib];
     [self.picker setDatePickerMode:UIDatePickerModeDateAndTime];
     [self.picker setDatePickerMode:UIDatePickerModeDate];
 }

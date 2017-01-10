@@ -16,6 +16,7 @@
 @property (nonatomic, weak) IBOutlet id<UICollectionViewDelegate> delegate;
 @property (nonatomic, weak) IBOutlet id<UICollectionViewDataSource> dataSource;
 @property (nonatomic, copy) void(^didScrollBlock)(UIScrollView* scrollView) ;
+@property (nonatomic, copy) void(^didEndDeceleratingBlock)(UIScrollView* scrollView) ;
 - (void)setViewModel:(NSArray *)viewModel reloadData:(BOOL)reload;
 
 @end

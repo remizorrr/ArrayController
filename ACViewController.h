@@ -39,7 +39,8 @@ extern NSString* ACCellIdentifier;
 - (void) setViewModelBlock:(NSArray*(^)())vmBlock;
 - (void) refreshModel;
 - (void) setCustomSaveTitle:(NSString*)saveTitle cancelTitle:(NSString*)cancelTitle;
-
+- (Class) dataControllerClass;
+- (Class) tableViewClass;
 
 + (void) registerNib:(UINib*)nib forIdentifier:(NSString*)identifier;
 + (void) registerClass:(Class)class forIdentifier:(NSString*)identifier;

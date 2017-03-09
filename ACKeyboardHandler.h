@@ -6,7 +6,7 @@
 //  Copyright © 2016 Appcoming. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface ACKeyboardHandler : NSObject
 

@@ -8,7 +8,7 @@
 
 #import "ACController.h"
 #import "ACDelegateProxy.h"
-#import "UIImage+Icon.h"
+#import "UIImage+Icons.h"
 #import "UIColor+Hex.h"
 
 @implementation NSDictionary (ACController)
@@ -73,6 +73,10 @@
         dict[ACDidMoveToKey] = didMoveTo;
     }
     return dict.copy;
+}
+
++ (NSDictionary*) itemWithCell:(NSString*)cell size:(CGSize)size configure:(ACConfigureBlock)configure select:(ACSelecteBlock)select delete:(ACSelecteBlock)delete edit:(ACSelecteBlock)edit canMove:(ACCanMoveBlock)canMove canMoveTo:(ACMoveToBlock)canMoveTo didMoveTo:(ACDidMoveToBlock)didMoveTo {
+    return [self itemWithCell:cell sizeBlock:^CGSize{return size;} configure:configure select:select delete:delete edit:edit canMove:canMove canMoveTo:canMoveTo didMoveTo:didMoveTo];
 }
 
 
@@ -358,10 +362,6 @@
     ACSelecteBlock deleteBlock = item[ACDeleteKey];
     return deleteBlock ? UITableViewCellEditingStyleDelete : UITableViewCellEditingStyleNone;
 }
-
-//- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return NO;
-//}
 
 - (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
     NSArray* children = self.viewModel[sourceIndexPath.section][@"children"];

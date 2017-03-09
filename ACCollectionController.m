@@ -168,4 +168,10 @@
     }
 }
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if (self.didEndDeceleratingBlock) {
+        self.didEndDeceleratingBlock(scrollView);
+    }
+}
+
 @end

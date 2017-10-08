@@ -8,7 +8,7 @@
 
 #import "ACCollectionController.h"
 #import "ACDelegateProxy.h"
-#import "UIImage+Icons.h"
+#import "UIImage+Icon.h"
 #import "UIColor+Hex.h"
 
 @interface ACCollectionController()

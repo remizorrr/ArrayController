@@ -8,7 +8,7 @@
 
 #import "ACController.h"
 #import "ACDelegateProxy.h"
-#import "UIImage+Icons.h"
+#import "UIImage+Icon.h"
 #import "UIColor+Hex.h"
 
 @implementation NSDictionary (ACController)

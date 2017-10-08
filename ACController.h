@@ -36,6 +36,7 @@ typedef CGSize(^ACSizeBlock)();
 + (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(ACSizeBlock)sizeBlock configure:(ACConfigureBlock)configure select:(ACSelecteBlock)select delete:(ACSelecteBlock)delete;
 + (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(ACSizeBlock)sizeBlock configure:(ACConfigureBlock)configure select:(ACSelecteBlock)select delete:(ACSelecteBlock)delete edit:(ACSelecteBlock)edit ;
 + (NSDictionary*) itemWithCell:(NSString*)cell sizeBlock:(ACSizeBlock)sizeBlock configure:(ACConfigureBlock)configure select:(ACSelecteBlock)select delete:(ACSelecteBlock)delete edit:(ACSelecteBlock)edit canMove:(ACCanMoveBlock)canMove canMoveTo:(ACMoveToBlock)canMoveTo didMoveTo:(ACDidMoveToBlock)didMoveTo;
++ (NSDictionary*) itemWithCell:(NSString*)cell size:(CGSize)size configure:(ACConfigureBlock)configure select:(ACSelecteBlock)select delete:(ACSelecteBlock)delete edit:(ACSelecteBlock)edit canMove:(ACCanMoveBlock)canMove canMoveTo:(ACMoveToBlock)canMoveTo didMoveTo:(ACDidMoveToBlock)didMoveTo;
 + (NSDictionary*) itemWithCell:(NSString*)cell size:(CGSize)size;
 @end
 

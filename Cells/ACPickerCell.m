@@ -17,8 +17,8 @@ NSString* ACPickerCellIdentifier = @"ACPickerCell";
 @implementation ACPickerCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     [self.picker reloadAllComponents];
-    // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

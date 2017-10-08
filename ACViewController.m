@@ -59,7 +59,7 @@ NSString* ACCellIdentifier = @"UITableViewCell";
 {
     self = [super init];
     if (self) {
-        self.arrayController = [ACController new];
+        self.arrayController = [[self dataControllerClass] new];
         self.navigationState = ACViewControllerNavigationStateDefault;
         _keyboardHandler = [[ACKeyboardHandler alloc] initWithKeyboardAnimateBlock:^(CGFloat height) {
             UIEdgeInsets inset = self.tableView.contentInset;
@@ -74,7 +74,7 @@ NSString* ACCellIdentifier = @"UITableViewCell";
 {
     self = [super initWithCoder:coder];
     if (self) {
-        self.arrayController = [ACController new];
+        self.arrayController = [[self dataControllerClass] new];
         self.navigationState = ACViewControllerNavigationStateDefault;
         _keyboardHandler = [[ACKeyboardHandler alloc] initWithKeyboardAnimateBlock:^(CGFloat height) {
             UIEdgeInsets inset = self.tableView.contentInset;
@@ -131,7 +131,7 @@ NSString* ACCellIdentifier = @"UITableViewCell";
     }
 
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+        _tableView = [[[self tableViewClass] alloc] initWithFrame:self.view.bounds];
         [_tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
         [self.view addSubview:_tableView];
     }
@@ -148,6 +148,14 @@ NSString* ACCellIdentifier = @"UITableViewCell";
          forCellReuseIdentifier:key];
     }
     [self refreshModel];
+}
+
+- (Class) dataControllerClass {
+    return [ACController class];
+}
+
+- (Class) tableViewClass {
+    return [UITableView class];
 }
 
 - (IBAction)cancel:(id)sender {
